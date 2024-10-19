@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Info - StarMaker</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f4f8; /* Light background */
+            color: #333; /* Dark text color */
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #ffffff; /* White background */
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            animation: slideIn 0.5s ease; /* Slide-in animation */
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        h1 {
+            color: #0056b3; /* Header color */
+            text-align: center;
+        }
+
+        h2 {
+            color: #007bff; /* Subheader color */
+            margin-top: 20px;
+        }
+
+        form {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center; /* Center the input */
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            width: 70%;
+            border: 2px solid #007bff; /* Blue border */
+            border-radius: 5px;
+            outline: none;
+            transition: border-color 0.3s; /* Transition for border color */
+        }
+
+        input[type="text"]:focus {
+            border-color: #0056b3; /* Darker blue on focus */
+        }
+
+        button {
+            padding: 10px 15px;
+            background-color: #007bff; /* Blue button */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            margin-left: 10px; /* Space between input and button */
+            cursor: pointer;
+            transition: background-color 0.3s; /* Transition for button color */
+        }
+
+        button:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+        }
+
+        .user-detail {
+            opacity: 0;
+            transform: translateY(-20px);
+            animation: fadeIn 0.5s forwards; /* Fade in animation */
+            margin: 10px 0;
+            padding: 10px;
+            background: #e7f1ff; /* Light blue background for user details */
+            border-radius: 5px; /* Rounded corners */
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .profile-image {
+            max-width: 100px;
+            border-radius: 50%;
+            display: block; /* Center the image */
+            margin: 10px auto; /* Center the image */
+        }
+
+        .error {
+            color: red;
+            text-align: center; /* Center the error message */
+        }
+
+        .slider {
+            background-color: #e7f1ff; /* Light blue background */
+            border-radius: 5px;
+            padding: 15px;
+            margin: 20px 0; /* Margin above and below slider */
+            text-align: center; /* Center text in slider */
+            font-weight: bold;
+        }
+
+        marquee {
+            font-size: 18px; /* Marquee text size */
+            color: #0056b3; /* Marquee text color */
+            margin-bottom: 20px; /* Margin below marquee */
+            padding: 10px 0; /* Padding for the marquee */
+            background-color: #e7f1ff; /* Marquee background color */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>StarMaker User Information</h1>
+        
+        <marquee behavior="scroll" direction="left">StarMaker SID Details</marquee> <!-- Marquee effect -->
+
+        <div class="slider">Enter SID to Get Details</div> <!-- Slider with message -->
+
+        <form method="POST">
+            <input type="text" name="sid" placeholder="Enter SID" required>
+            <button type="submit">Get User Info</button>
+        </form>
+
+        <div id="user-info-container">
+            {% if user_info %}
+                {% if user_info.get('code') == 0 %}
+                    <h2>User Information:</h2>
+                    <ul>
+                        <li class="user-detail"><strong>Category:</strong> {{ user_info.user.category }}</li>
+                        <li class="user-detail"><strong>User ID:</strong> {{ user_info.user.id }}</li>
+                        <li class="user-detail"><strong>UID:</strong> {{ user_info.user.uid }}</li>
+                        <li class="user-detail"><strong>Stage Name:</strong> {{ user_info.user.stage_name }}</li>
+                        <li class="user-detail"><strong>Country:</strong> {{ user_info.user.country }}</li>
+                        <li class="user-detail"><strong>Profile Image:</strong> <img src="{{ user_info.user.profile_image }}" alt="Profile Image" class="profile-image"></li>
+                        <li class="user-detail"><strong>Level:</strong> {{ user_info.user.level }}</li>
+                        <li class="user-detail"><strong>Can Join/Make Connection:</strong> {{ user_info.user.can_join_make_connection }}</li>
+                        <li class="user-detail"><strong>Reward Rate:</strong> {{ user_info.user.reward_rate }}</li>
+                    </ul>
+                {% else %}
+                    <p class="error">Error: {{ user_info.get('message', 'No message available') }}</p>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
